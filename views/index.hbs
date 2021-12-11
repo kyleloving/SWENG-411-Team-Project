@@ -1,8 +1,12 @@
 {{#if userContext}}
   <h1 class="text-center">Hi {{userContext.userinfo.given_name}}!</h1>
   <div class="d-flex justify-content-center">
-    <img class="rounded img-fluid" src="/static/images/greeting.jpg" />
+    <img class="rounded img-fluid" src="/static/images/logo.jpg" />
   </div>
 {{else}}
+  <div class="d-flex justify-content-center">
+    <img class="rounded img-fluid" src="/static/images/logo.jpg" />
+    </div>
   <h1 class="text-center">Please log in</h1>
+  <center><button type="button">Log in!</button></center>
 {{/if}}
