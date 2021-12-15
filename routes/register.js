@@ -1,12 +1,6 @@
-const okta = require('@okta/okta-sdk-nodejs');
 const express = require('express');
 
 const router = express.Router();
-
-const client = new okta.Client({
-  orgUrl: process.env.OKTA_ORG_URL,
-  token: process.env.OKTA_TOKEN
-});
 
 // Take the user to the homepage if they're already logged in
 router.use('/', (req, res, next) => {
@@ -18,9 +12,13 @@ router.use('/', (req, res, next) => {
 });
 
 const fields = [
-  { name: 'firstName', label: 'First Name' },
-  { name: 'lastName', label: 'Last Name' },
-  { name: 'email', label: 'Email', type: 'email' },
+  { name: 'idNumber', label: 'User ID Number'},
+  { name: 'name', label: 'Full Name'},
+  { name: 'address', label: 'Address'},
+  { name: 'phone', label: 'Phone Number'},
+  { name: 'rating', label: 'Rating'},
+  { name: 'mandHours', label: 'Mandatory Hours'},
+  { name: 'supIDNumber', label: 'Supervisor\'s ID Number'},
   { name: 'password', label: 'Password', type: 'password' }
 ];
 
