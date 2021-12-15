@@ -1,4 +1,6 @@
 const express = require('express');
+var config = require("../dbconfig");
+const sql = require("mysql");
 
 const router = express.Router();
 
@@ -23,45 +25,83 @@ const fields = [
 ];
 
 router.get('/', (req, res) => {
+  try {
+    var con = sql.createConnection(config);
+    con.connect();
+    con.query("SELECT * FROM student", function (err, result, fields) {
+      if (err) throw err;
+      console.log(result);
+      // res.json(result);
+    });
+    con.end();
+  } catch (error) {
+    console.log(error);
+  }
   res.render('register', { fields });
 });
 
-router.post('/', async (req, res) => {
-  const { body } = req;
-
+router.post('/', (req, res) => {
   try {
-    await client.createUser({
-      profile: {
-        firstName: body.firstName,
-        lastName: body.lastName,
-        email: body.email,
-        login: body.email
-      },
-      credentials: {
-        password: {
-          value: body.password
-        }
-      }
+    var con = sql.createConnection(config);
+    var params = {
+      DODID_SSN: req.body.idNumber,
+      NAME: req.body.name,
+      ADDRESS: req.body.address,
+      PHONE: req.body.phone,
+      RATING: req.body.rating,
+      MANDATED_HOURS: req.body.mandHours,
+      ACADEMIC_STATUS: req.body.supIDNumber,
+      ADVISOR_NUMBER: null,
+      CREW: null,
+      PASSWORD: req.body.password
+    };
+    con.connect();
+    con.query("INSERT INTO stats.student SET ?", params, function (err, result, fields) {
+      if (err) {
+        console.log(err);
+      };
+      console.log(result);
+      // res.end(JSON.stringify(result));
     });
+    con.end();
+  } catch (error) {
+    console.log(error);
+  } 
+  res.render('register', { fields });
+  
+  // try {
+  //   await client.createUser({
+  //     profile: {
+  //       firstName: body.firstName,
+  //       lastName: body.lastName,
+  //       email: body.email,
+  //       login: body.email
+  //     },
+  //     credentials: {
+  //       password: {
+  //         value: body.password
+  //       }
+  //     }
+  //   });
 
-    res.redirect('/');
-  } catch ({ errorCauses }) {
-    const errors = {};
+  //   res.redirect('/');
+  // } catch ({ errorCauses }) {
+  //   const errors = {};
 
-    errorCauses.forEach(({ errorSummary }) => {
-      const [, field, error] = /^(.+?): (.+)$/.exec(errorSummary);
-      errors[field] = error;
-    });
+    // errorCauses.forEach(({ errorSummary }) => {
+    //   const [, field, error] = /^(.+?): (.+)$/.exec(errorSummary);
+    //   errors[field] = error;
+    // });
 
-    res.render('register', {
-      errors,
-      fields: fields.map((field) => ({
-        ...field,
-        error: errors[field.name],
-        value: body[field.name]
-      }))
-    });
-  }
+    // res.render('register', {
+    //   errors,
+    //   fields: fields.map((field) => ({
+    //     ...field,
+    //     error: errors[field.name],
+    //     value: body[field.name]
+    //   }))
+    // });
+  // }
 });
 
 module.exports = router;

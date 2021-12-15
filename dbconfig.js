@@ -3,6 +3,6 @@ var databaseConfig = {
   user: "root",
   password: "java",
   port: 3306,
-  database: "STATS",
+  database: "STATS"
 };
 module.exports = databaseConfig;
