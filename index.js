@@ -17,6 +17,12 @@ app.use('/register', require('./routes/register'));
 //Login Page
 app.use('/login', require('./routes/login'));
 
+//Record Time Page
+app.use('/record', require('./routes/record'));
+
+//View Timecard Page
+app.use('/timecard', require('./routes/timecard'));
+
 //Index Page
 app.use('/', require('./routes/index'));
 

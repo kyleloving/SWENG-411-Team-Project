@@ -1,9 +1,6 @@
 var config = require("./dbconfig");
 const sql = require("mysql");
 
-
-
-
 //importing required modules
 var express = require('express');
 var bodyParser = require('body-parser');
@@ -12,7 +9,6 @@ var app = express();
 var router = express.Router();
 var port = process.env.PORT || 8090;
 app.listen(port);
-
 
 //Config the app
 app.use(bodyParser.urlencoded({ extended: true }));
